@@ -1,46 +1,352 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>你的名字 | 个人主页</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Jiaxian Chen | Personal Homepage</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #5a657a;
+      --line: #d8dfeb;
+      --primary: #0b4ea2;
+      --primary-soft: #eaf2ff;
+      --accent: #0d7a5f;
+      --shadow: 0 10px 30px rgba(20, 40, 90, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Source Serif 4", "Noto Serif", "Times New Roman", serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, #e8f0ff 0%, transparent 30%),
+        radial-gradient(circle at 90% 0%, #e8f6ff 0%, transparent 28%),
+        var(--bg);
+      line-height: 1.65;
+    }
+
+    .wrap {
+      width: min(1080px, 92vw);
+      margin: 28px auto 48px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+      background: rgba(243, 246, 251, 0.88);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      width: min(1080px, 92vw);
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px 0;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: #1e2a42;
+      font-size: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 140px 1fr 160px;
+      gap: 22px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 20px;
+      align-items: center;
+    }
+
+    .logo, .avatar {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .name {
+      margin: 0;
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.1;
+      color: #0e1a30;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .meta {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(210px, 1fr));
+      gap: 6px 16px;
+      font-size: 17px;
+    }
+
+    .meta b { color: #111a2b; }
+    .meta a { color: #0a3f90; }
+
+    section {
+      margin-top: 18px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 18px 20px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 29px;
+      color: var(--primary);
+      border-bottom: 2px solid #dbe7ff;
+      padding-bottom: 6px;
+    }
+
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(160px, 1fr));
+      gap: 8px 14px;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .rows { margin: 8px 0 0; padding-left: 0; list-style: none; }
+    .rows li { margin: 6px 0; }
+    .label { font-weight: 700; color: #12213d; }
+
+    .exp {
+      border-left: 3px solid #c7dbff;
+      padding-left: 14px;
+      margin: 14px 0 0;
+    }
+
+    .exp-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+
+    .exp-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #111f39;
+    }
+
+    .tag {
+      font-size: 14px;
+      color: #0f4f95;
+      background: var(--primary-soft);
+      border: 1px solid #cfe0ff;
+      padding: 2px 10px;
+      border-radius: 999px;
+    }
+
+    .date {
+      margin-left: auto;
+      color: #2a3a56;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .comp {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 17px;
+    }
+
+    .comp td {
+      border-bottom: 1px solid #e5ebf5;
+      padding: 8px 4px;
+      vertical-align: top;
+    }
+
+    .comp td:nth-child(2), .comp td:nth-child(3) {
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .bullets {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 17px;
+    }
+
+    footer {
+      text-align: center;
+      color: #6c7891;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 90px 1fr;
+      }
+      .avatar {
+        grid-column: 1 / -1;
+        width: 140px;
+        justify-self: center;
+      }
+      .edu-grid {
+        grid-template-columns: 1fr;
+        font-size: 18px;
+      }
+      .meta {
+        grid-template-columns: 1fr;
+        font-size: 16px;
+      }
+      .date { margin-left: 0; }
+      .comp td:nth-child(2), .comp td:nth-child(3) {
+        text-align: left;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="hero">
-    <img src="assets/avatar.jpg" alt="avatar" class="avatar" />
-    <h1>你的名字</h1>
-    <p>你的身份（如：硕士生 / 前端工程师 / 算法工程师）</p>
-    <p>你的单位或公司</p>
-    <p class="links">
-      <a href="mailto:you@example.com">Email</a>
-      <a href="https://github.com/yourname" target="_blank">GitHub</a>
-      <a href="https://scholar.google.com/" target="_blank">Scholar</a>
-      <a href="https://www.zhihu.com/" target="_blank">知乎</a>
-    </p>
-  </header>
+  <div class="topbar">
+    <nav class="nav">
+      <a href="#education">Education</a>
+      <a href="#research">Research</a>
+      <a href="#competitions">Competitions</a>
+      <a href="#development">Development</a>
+    </nav>
+  </div>
 
-  <nav class="toc">
-    <a href="#about">About</a>
-    <a href="#research">Research</a>
-    <a href="#news">News</a>
-    <a href="#publications">Publications</a>
-    <a href="#experience">Experience</a>
-    <a href="#awards">Awards</a>
-    <a href="#service">Service</a>
-  </nav>
+  <main class="wrap">
+    <header class="hero">
+      <img class="logo" src="assets/nwpu-logo.png" alt="Northwestern Polytechnical University logo" />
+      <div>
+        <h1 class="name">Jiaxian Chen</h1>
+        <p class="subtitle">Undergraduate Student, Electronic Science and Technology (AI Track)</p>
+        <div class="meta">
+          <div><b>Age:</b> 21</div>
+          <div><b>Political Status:</b> CPC Member</div>
+          <div><b>Native Place:</b> Suining, Sichuan, China</div>
+          <div><b>Phone:</b> 15708104402</div>
+          <div><b>Email:</b> <a href="mailto:chenjiaxiannwpu@163.com">chenjiaxiannwpu@163.com</a></div>
+        </div>
+      </div>
+      <img class="avatar" src="assets/avatar.jpg" alt="Jiaxian Chen portrait" />
+    </header>
 
-  <main class="container">
-    <section id="about"><h2>About</h2><p>写你的个人简介。</p></section>
-    <section id="research"><h2>Research</h2><p>写你的研究方向/技术方向。</p></section>
-    <section id="news"><h2>News</h2><ul><li>2026-03：这里写动态</li></ul></section>
-    <section id="publications"><h2>Publications</h2><ul><li>论文/项目1（附链接）</li></ul></section>
-    <section id="experience"><h2>Experience</h2><ul><li>公司/学校 - 职位 - 时间</li></ul></section>
-    <section id="awards"><h2>Awards</h2><ul><li>奖项 - 年份</li></ul></section>
-    <section id="service"><h2>Service</h2><ul><li>评审/志愿/社区贡献</li></ul></section>
+    <section id="education">
+      <h2>Education Background</h2>
+      <div class="edu-grid">
+        <div>Northwestern Polytechnical University (Double First-Class, 985)</div>
+        <div>School of Electronics and Information</div>
+        <div>Electronic Science and Technology</div>
+        <div>2023.09 - 2027.06</div>
+      </div>
+      <ul class="rows">
+        <li><span class="label">Academic Performance:</span> GPA 3.942/4.1, Major Rank 3/63, Average Score 93.5</li>
+        <li><span class="label">English:</span> CET-4 606, CET-6 557</li>
+        <li><span class="label">Core Courses:</span> Probability and Mathematical Statistics (100), Mathematical Equations and Special Functions (99), Programming Fundamentals (96), Illustrated Deep Learning (95), etc.</li>
+        <li><span class="label">Technical Skills:</span> Multisim, Keil5, Cursor, SPSS, MATLAB, Python, VHDL</li>
+        <li><span class="label">Scholarships:</span> National Scholarship (2024-2025), First-Class University Scholarship (Top 1%, two consecutive years), Kewei Third-Class Scholarship (Top 5%)</li>
+        <li><span class="label">Honors:</span> Outstanding Communist Youth League Member, Outstanding University Student, Advanced Individual in Academic Excellence, Advanced Individual in Innovation & Entrepreneurship, Advanced Individual in Diligence and Scholarship</li>
+      </ul>
+    </section>
+
+    <section id="research">
+      <h2>Research Experience</h2>
+
+      <article class="exp">
+        <div class="exp-head">
+          <div class="exp-title">National Key Project: “Hexapod Mobile Robot with Physical-Environment Perception”</div>
+          <span class="tag">Core Member</span>
+          <span class="date">2024.05 - 2025.06</span>
+        </div>
+        <p>
+          Developed a physically-aware hexapod robot for embodied intelligence in complex environments.
+          Built a distributed computing-control architecture and designed a hardware time-aligned multi-sensor fusion chain,
+          reducing temporal jitter among vision, inertial, and tactile signals.
+          As hardware lead, I developed a highly integrated control system with depth camera, IMU, and pressure array,
+          and optimized power and high-bandwidth communication for lower sensing-action loop latency.
+          The platform achieved stable data transmission on unstructured terrain, supporting high-frequency SLAM and YOLO deployment.
+        </p>
+      </article>
+
+      <article class="exp">
+        <div class="exp-head">
+          <div class="exp-title">Target Detection Based on FMCW Radar</div>
+          <span class="tag">First Author / Project Lead</span>
+          <span class="date">2024.09 - 2025.08</span>
+        </div>
+        <p>
+          Built a complete mmWave radar perception pipeline for behavior monitoring in complex indoor scenarios.
+          Combined 2D-FFT with micro-Doppler feature extraction, and introduced dynamic-threshold CFAR plus cross-domain temporal analysis for weak-target detection in non-stationary signals.
+          Led the full pipeline from raw I/Q signals to time-frequency feature engineering, and optimized MTI to suppress static clutter.
+          The project ranked <b>1st (98/100)</b>, demonstrating strong robustness for real-time behavior recognition.
+        </p>
+      </article>
+
+      <article class="exp">
+        <div class="exp-head">
+          <div class="exp-title">Multimodal LLM (vLLM) RL Alignment and Inference Optimization</div>
+          <span class="tag">Independent Contributor</span>
+        </div>
+        <p>
+          Conducted RL fine-tuning for Qwen3-VL-2B with SFT + GRPO to improve visual reasoning alignment.
+          Replaced critic-network dependence with group-relative advantages for memory-efficient training.
+          Addressed reward-margin bias through reward-distribution recalibration and systematic debugging.
+          Built a high-performance vLLM + CUDA environment and led full-chain optimization from data curation to aligned inference validation.
+        </p>
+      </article>
+    </section>
+
+    <section id="competitions">
+      <h2>Competition Experience</h2>
+      <table class="comp">
+        <tr><td>2024 China Robot Competition & RoboCup China Open</td><td>National Second Prize</td><td>2024.05</td></tr>
+        <tr><td>2025 China Robot Competition & RoboCup China Open</td><td>National Third Prize</td><td>2025.05</td></tr>
+        <tr><td>National Robot Championship (Boxing Group)</td><td>National Second Prize</td><td>2024.10</td></tr>
+        <tr><td>National English Competition for College Students</td><td>National Third Prize</td><td>2024.05</td></tr>
+        <tr><td>MCM/ICM (U.S. Mathematical Contest in Modeling)</td><td>Honorable Mention</td><td>2025.03</td></tr>
+        <tr><td>TI Cup Shaanxi Inter-University Engineering League</td><td>Provincial First Prize</td><td>2025.05</td></tr>
+        <tr><td>National College Mathematics Competition</td><td>Provincial First Prize</td><td>2024.09</td></tr>
+      </table>
+    </section>
+
+    <section id="development">
+      <h2>Comprehensive Development</h2>
+      <ul class="bullets">
+        <li><b>Student Leadership:</b> Vice President, Electronics Enthusiasts Association (NPU); School Youth League organizer; Leader, Soccer Robot Club; Peer Youth Mentor.</li>
+        <li><b>Social Practice:</b> “Xin++” National Outstanding Teaching Support Program; “Cloud Teaching Together” Social Practice Team; “Returning Hometown” Outstanding Social Practice Team.</li>
+      </ul>
+    </section>
+
+    <footer>© <span id="year"></span> Jiaxian Chen</footer>
   </main>
 
-  <footer>© <span id="year"></span> 你的名字</footer>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
+
